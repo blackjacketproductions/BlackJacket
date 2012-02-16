@@ -1,3 +1,131 @@
-/*sdfsdfsdfsdf */
-James was here
-Jon's change
+/*-----------------------------------------------------------------------------------*/
+/*	Setup
+/*-----------------------------------------------------------------------------------*/
+.appBody
+{
+    width: 850px;
+    height: 1024px;
+    margin-left:auto;
+    margin-right:auto;
+    padding-top:20px;
+}
+
+.baseContent
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #97A4C2;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 20px;
+    background: white;
+}
+
+
+.storyBoardContent
+{
+
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Building Blocks
+/*-----------------------------------------------------------------------------------*/
+
+body
+{
+    font-size: 11px;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    color: #333;
+    line-height: 1.28;
+    word-wrap:break-word;
+    background: #E7EBF2;
+    height: 1024px;
+}
+
+.photosGrid td
+{
+    padding-right: 5px;
+}
+
+.pbm td
+{
+    padding-bottom: 20px;
+}
+
+.photosGrid lastChild
+{
+    padding-right: 0px;
+}
+
+.uiMediaThumb{background:#fff;border:1px solid #ccc;display:inline-block;outline:none;padding:4px;position:relative;vertical-align:bottom}
+.loading.uiMediaThumb{background:url(https://s-static.ak.facebook.com/rsrc.php/v1/yk/r/LOOn0JtHNzb.gif) no-repeat center center}
+.loading.uiMediaThumb i{opacity:.3}
+.uiMediaThumbSelected{background-color:#3b5998;border-color:#3b5998}
+.uiMediaThumb:hover,.uiMediaThumb:hover .uiMediaThumbWrap,.uiMediaThumb:active,.uiMediaThumb:active .uiMediaThumbWrap,.uiMediaThumb:focus,.uiMediaThumb:focus .uiMediaThumbWrap{border-color:#3b5998}
+.uiMediaThumb i{background-color:#eee;background-position:center 25%;background-repeat:no-repeat;display:block}
+.uiMediaThumbSmall i{height:54px;width:73px}
+.uiMediaThumbMedium i{height:85px;width:114px}
+.uiMediaThumbLarge i{height:116px;width:149px}
+.uiMediaThumbHuge i{height:120px;width:161px}
+.uiMediaThumbAlb{margin-bottom:4px;margin-right:4px}
+.uiMediaThumbWrap{background:#fff;border:1px solid #ccc;left:4px;padding:4px;position:absolute;top:4px}
+.uiMediaThumbAlbSmall,.uiMediaThumbSmall .uiMediaThumbWrap i{height:49px;width:68px}
+.uiMediaThumbAlbMedium,.uiMediaThumbMedium .uiMediaThumbWrap i{height:80px;width:109px}
+.uiMediaThumbAlbLarge,.uiMediaThumbLarge .uiMediaThumbWrap i{height:111px;width:144px}
+.uiMediaThumbAlbHuge,.uiMediaThumbHuge .uiMediaThumbWrap i{height:115px;width:156px}
+.uiPhotoThumb{border:1px solid #ccc;display:inline-block}
+.uiPhotoThumb img{display:block;margin:3px}
+.uiPhotoThumb:hover{border:1px solid #3b5998}
+
+.uiGrid{border:0;border-collapse:collapse;border-spacing:0}
+.uiGridCalc{width:100%}
+.uiGrid .vTop{vertical-align:top}
+.uiGrid .vMid{vertical-align:middle}
+.uiGrid .vBot{vertical-align:bottom}
+.uiGrid .hLeft{text-align:left}
+.uiGrid .hCent{text-align:center}
+.uiGrid .hRght{text-align:right}
+
+.fbPhotosGrid td{width:171px}
+.fbPhotosGridTight td{padding-right:8px;width:150px}
+.fbPhotosGrid .photoDetails{width:166px}
+.fbPhotosGrid .photoDetails .photoText{word-wrap:break-word;overflow:hidden}
+.fbPhotosGridTight .photoDetails{width:154px}
+.fbPhotosGrid .lastChild{padding-right:0}
+
+/*-----------------------------------------------------------------------------------*/
+/*	Typography
+/*-----------------------------------------------------------------------------------*/
+
+a{
+    cursor: pointer;
+    color: #3B5998;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+strong{
+    font-weight:bold;
+}
+em{
+    font-style:italic;
+}
+h3{
+    font-size: 16px;
+    font-weight:bold;
+    line-height: 1.1em;
+    margin-bottom:5px;
+}
+.postInfo{
+    display:block; /* Spans are inline element so needs to be changed to block in order for the margin to work */
+    color:#808080;
+    margin-top:5px;
+    margin-bottom:10px;
+}
+p{
+    font-size: 12px;
+    line-height: 1.5em;
+    margin-bottom:18px;
+}
