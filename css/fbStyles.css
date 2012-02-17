@@ -15,16 +15,16 @@
     border-style: solid;
     border-width: 1px;
     border-color: #97A4C2;
+    padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 20px;
     background: white;
 }
 
-
 .storyBoardContent
 {
-
+    margin-top: 20px;
 }
 
 

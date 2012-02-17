@@ -1,0 +1,13 @@
+.bigTile
+{
+    width: 140px;
+    height: 140px;
+    border: 1px solid white;
+    padding: 5px 10px;
+}
+
+.bigTile:hover
+{
+    border: 1px solid #3b5998;
+    cursor: pointer;
+}
