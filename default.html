@@ -4,40 +4,86 @@
     <title>Harness Test</title>
     <meta charset="utf-8" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
     <script src="scripts/main.js" type="text/javascript"></script>
+    <script src="scripts/Facebook.js" type="text/javascript"></script>
+    <script src="scripts/FacebookUser.js" type="text/javascript"></script>
+    <script src="scripts/LoggedInUser.js" type="text/javascript"></script>
+    <script src="scripts/IImageSource.js" type="text/javascript"></script>
+    <script src="scripts/FacebookImageSource.js" type="text/javascript"></script>
+    <script src="scripts/LocalImageSource.js" type="text/javascript"></script>
+    <script src="scripts/IMeme.js" type="text/javascript"></script>
+    <script src="scripts/View.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" href="css/fbStyles.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
+<div id="fb-root"></div>
+
 <script type="text/javascript">
+
+    var currentSession = new LoggedInUser();
+    var facebook = new Facebook();
+    var view = new View();
+
 
     $(document).ready(function() {
 
+        //Authenticate the user with Facebook
+        facebook.Authenticate(function(response) {
+            if (response.status === 'connected') {
+                currentSession.access_token = response.authResponse.accessToken;
+                currentSession.GetDetails(function(){});
+                currentSession.GetFriends(function(){});
+            }
+            else {
+                facebook.Login(function(response){
+                    //
+                });
+            }
+
+        });
+
         //hide 2nd section
-        $("#sbcImageEditor").hide();
-        $("#sbcPhotoSelector").hide();
+        $("#sbcImageEditor .storyBoardContent").hide();
+        $("#sbcPhotoSelector .storyBoardContent").hide();
 
         $("#sourceFb").click(function(){
-            $("#sbcPhotoSelector").show("slow");
-            $("#sbcImageSource .storyBoardContent").hide();
+            $("#sbcPhotoSelector .storyBoardContent").show("slow");
+            $("#sbcImageSource .storyBoardContent").hide("slow");
+            currentSession.SetImageSourceType(FacebookImageSourceType);
+            //view.DrawFriendsAutoComplete(currentSession.loggedInFacebookUserFriends);
+
+            facebook.GetAlbums(currentSession.loggedInFacebookUser.id, function(data) {
+                view.DrawAlbums(data, function(item){
+                    $("#albumsGrid").hide();
+                    facebook.GetPhotos(item.id, function(data){
+                        view.DrawPhotos(data, function(item){
+                            alert(item.id);
+                        });
+                    });
+                });
+            });
         });
 
         $("#sourcePc").click(function(){
-            $("#sbcImageEditor").show("slow");
-            $("#sbcImageSource .storyBoardContent").hide();
+            $("#sbcImageEditor .storyBoardContent").show("slow");
+            $("#sbcImageSource .storyBoardContent").hide("slow");
+            currentSession.SetImageSourceType(LocalImageSourceType);
         });
     });
 
 </script>
 
 <div class="appBody">
-    <div id="topBar" class="baseContent">    
-        Test
+    <div id="topBar" class="baseContent">
+        Fail a Friend!
+        <div class="fb-login-button" data-show-faces="true" data-width="210" data-max-rows="1">Login with Facebook</div>
     </div>
     <div id="sbcImageSource" class="baseContent">
-        <h3>Where is your image coming from?</h3>
+        <h3>Step 1 - Where is your image coming from?</h3>
         <div class="storyBoardContent">
             <img id="sourceFb" class="bigTile" src="images/fb_logo.png" title="Select from Facebook" />
             <img id="sourcePc" class="bigTile" src="images/pc_logo.png" title="Select from My Computer" />
@@ -45,76 +91,108 @@
     </div>
 
     <div id="sbcPhotoSelector" class="baseContent">
-        <h3>Find a photo</h3>
+        <h3>Step 2 - Find a photo</h3>
         <div class="storyBoardContent">
-            Content
+            <div id="albumsGrid" class="photoGrid"></div>
+            <div id="photosGrid" class="photoGrid"></div>
         </div>
     </div>
 
     <div id="sbcImageEditor" class="baseContent">
-        <canvas width="760" height="600" id="demotivationalcanvas">
+        <h3>Step 3 - Fail your Friend</h3>
+        <div class="storyBoardContent">
+            <canvas width="760" height="600" id="demotivationalcanvas">
 
-        </canvas>
-        <form>
-            <p>
-                <label for="posterTitleTextBox">Title:</label>
-                <input id="posterTitleTextBox" type="text" value="Hairy Nuts">
-            </p>
+            </canvas>
+            <form>
+                <p>
+                    <label for="posterTitleTextBox">Title:</label>
+                    <input id="posterTitleTextBox" type="text" value="Hairy Nuts">
+                </p>
 
-            <p>
-                <label for="posterWittyCommentTextBox">Witty Comment:</label>
-                <input id="posterWittyCommentTextBox" type="text" value="I like them this much!!">
-            </p>
+                <p>
+                    <label for="posterWittyCommentTextBox">Witty Comment:</label>
+                    <input id="posterWittyCommentTextBox" type="text" value="I like them this much!!">
+                </p>
 
-            <p>
-                <input type="button" id="previewButton" value="Preview">
-            </p>
-        </form>
+                <p>
+                    <input type="button" id="previewButton" value="Preview">
+                </p>
+            </form>
+        </div>
     </div>
 </div>
 
 <input type="file" id="files" name="files[]" multiple />
 <output id="list"></output>
 
-<script>
-    function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
-        handleFiles(files);
-        // files is a FileList of File objects. List some properties.
-        var output = [];
-        for (var i = 0, f; f = files[i]; i++) {
-            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-                    f.size, ' bytes, last modified: ',
-                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-
-                    '</li>');
-        }
-        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-    }
-
-    document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
-    function handleFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var imageType = /image.*/;
-
-            if (!file.type.match(imageType)) {
-                continue;
-            }
-
-            var preview = document.createElement("div");
-            var img = document.createElement("img");
-            img.classList.add("obj");
-            img.file = file;
-            preview.appendChild(img);
-
-            var reader = new FileReader();
-            reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-            reader.readAsDataURL(file);
+<script type="text/javascript">
+    <!-- Begin
+    /* This script and many more are available free online at
+     The JavaScript Source!! http://javascript.internet.com
+     Created by: Abraham Joffe :: http://www.abrahamjoffe.com.au/ */
+    /***** CUSTOMIZE THESE VARIABLES *****/
+        // width to resize large images to
+    var maxWidth=500;
+    // height to resize large images to
+    var maxHeight=500;
+    // valid file types
+    var fileTypes=["bmp","gif","png","jpg","jpeg"];
+    // the id of the <strong class="highlight">preview</strong> <strong class="highlight">image</strong> tag
+    var outImage="previewField";
+    // what to display when the <strong class="highlight">image</strong> is not valid
+    var defaultPic="spacer.gif";
+    /***** DO NOT EDIT BELOW *****/
+    function preview(what){
+    var source=what.value;
+    var ext=source.substring(source.lastIndexOf(".")+1,source.length).toLowerCase();
+    for (var i=0; i<fileTypes.length; i++){
+        if (fileTypes[i]==ext){
+            break;
         }
     }
+    globalPic=new Image();
+    if (i<fileTypes.length){
+
+        //Obtenemos los datos de la imagen de firefox
+        try{
+            globalPic.src=what.files[0].getAsDataURL();
+        }catch(err){
+            globalPic.src=source;
+        }
+    }else {
+        globalPic.src=defaultPic;
+        alert("ESTA NO ES UNA IMAGEN VALIDA por favor escoge una imagen de tipo:nn"+fileTypes.join(", "));
+    }
+    setTimeout("applyChanges()",200);
+    }
+
+    var globalPic;
+    function applyChanges(){
+        var field=document.getElementById(outImage);
+        var x=parseInt(globalPic.width);
+        var y=parseInt(globalPic.height);
+        if (x>maxWidth) {
+            y*=maxWidth/x;
+            x=maxWidth;
+        }
+        if (y>maxHeight) {
+            x*=maxHeight/y;
+            y=maxHeight;
+        }
+        field.style.display=(x<1 || y<1)?"none":"";
+        field.src=globalPic.src;
+        field.width=x;
+        field.height=y;
+    }
+    // End -->
 </script>
+<div align="center" style="line-height: 1.9em;">
+    <br>
+    <input type="file" id="picField" onchange="preview(this)">
+    <br>
+    <img alt="Graphic will " id="previewField" src="http://i14.photobucket.com/albums/a345/Instar/eye_search_e0.gif">
+</div>
 
 </body>
 </html>

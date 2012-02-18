@@ -9,9 +9,9 @@
 function DemotivationalMeme() {
 
     //Methods
-    this.prototype.GetMemeType = function() {
+    this.GetMemeType = function() {
         return DemotivationalMemeType;
     };
 
-    this.prototype.GetImage = function() { };
+    this.GetImage = function() { };
 }

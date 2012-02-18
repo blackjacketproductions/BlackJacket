@@ -9,11 +9,11 @@
 function LocalImageSource() {
 
     //Methods
-    this.prototype.GetImageSourceType = function() {
+    this.GetImageSourceType = function() {
         return LocalImageSourceType;
     };
 
-    this.prototype.GetImage = function() {
+    this.GetImage = function() {
         //Return url to base 64 jpg file
     };
 }

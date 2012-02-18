@@ -13,11 +13,11 @@ function FacebookImageSource() {
     var friendPhotoId = {};
 
     //Methods
-    this.prototype.GetImageSourceType = function() {
+    this.GetImageSourceType = function() {
         return FacebookImageSourceType;
     };
 
-    this.prototype.GetImage = function() {
+    this.GetImage = function() {
         //Return url to jpg file
     };
 }

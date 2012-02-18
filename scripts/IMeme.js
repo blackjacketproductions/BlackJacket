@@ -14,6 +14,7 @@ var PricelessMemeType = 4;
 
 function IMeme() {
     //Methods
-    this.prototype.GetMemeType = function() { };
-    this.prototype.GetImage = function() { };
+    this.GetMemeType = function() { };
+    this.GetImage = function() { };
 }
+

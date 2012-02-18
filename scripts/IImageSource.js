@@ -12,6 +12,7 @@ var LocalImageSourceType = 2;
 
 function IImageSource() {
     //Methods
-    this.prototype.GetImageSourceType = function() { };
-    this.prototype.GetImage = function() { };
+    this.GetImageSourceType = function() { };
+    this.GetImage = function() { };
 }
+
