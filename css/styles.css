@@ -49,3 +49,8 @@
     margin-left: 0px;
     clear: both;
 }
+
+.hiddenContent
+{
+    visibility: hidden;
+}

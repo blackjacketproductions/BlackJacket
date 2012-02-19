@@ -8,9 +8,9 @@
 
 function FacebookImageSource() {
     //Variables
-    var friendFacebookUser = {};
-    var friendAlbumId = {};
-    var friendPhotoId = {};
+    this.friendFacebookUser = {};
+    this.friendAlbumId = {};
+    this.friendPhotoId = {};
 
     //Methods
     this.GetImageSourceType = function() {
@@ -19,5 +19,7 @@ function FacebookImageSource() {
 
     this.GetImage = function() {
         //Return url to jpg file
+        var url = "https://graph.facebook.com/" + this.friendPhotoId + "/picture";
+        return url;
     };
 }

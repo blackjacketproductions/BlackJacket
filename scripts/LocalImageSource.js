@@ -7,6 +7,7 @@
  */
 
 function LocalImageSource() {
+    this.localImageUrl = "";
 
     //Methods
     this.GetImageSourceType = function() {
@@ -15,5 +16,23 @@ function LocalImageSource() {
 
     this.GetImage = function() {
         //Return url to base 64 jpg file
+        return this.localImageUrl;
+    };
+
+    this.ProcessFile = function (file) {
+        var imageType = /image.*/;
+        if (!file.type.match(imageType)) return;
+
+        setTimeout(function() {
+            if ("URL" in window) {
+                this.localImageUrl =  window.URL.createObjectURL(file);
+            } else {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(e) {
+                    this.localImageUrl = e.target.result;
+                }
+            }
+        }, 1000);
     };
 }
