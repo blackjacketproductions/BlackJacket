@@ -5,8 +5,67 @@
  * Time: 8:32 PM
  * To change this template use File | Settings | File Templates.
  */
+var currentSession = new LoggedInUser();
+var facebook = new Facebook();
+var view = new View();
+var memeEditor = new MemeEditor();
 
-window.onload = init;
+
+$(document).ready(function() {
+
+    //Authenticate the user with Facebook
+    facebook.Authenticate(function(response) {
+        if (response.status === 'connected') {
+            currentSession.access_token = response.authResponse.accessToken;
+            currentSession.GetDetails(function(){});
+            currentSession.GetFriends(function(){});
+        }
+        else {
+            facebook.Login(function(response){
+                //
+            });
+        }
+
+    });
+
+    //hide 2nd section
+    $("#sbcImageEditor .storyBoardContent").hide();
+    $("#sbcPhotoSelector .storyBoardContent").hide();
+
+    $("#sourceFb").click(function(){
+        $("#sbcPhotoSelector .storyBoardContent").show("slow");
+        $("#sbcImageSource .storyBoardContent").hide("slow");
+        currentSession.SetImageSourceType(FacebookImageSourceType);
+        //view.DrawFriendsAutoComplete(currentSession.loggedInFacebookUserFriends);
+
+        facebook.GetAlbums(currentSession.loggedInFacebookUser.id, function(data) {
+            currentSession.imageSource.friendFacebookUser = currentSession.loggedInFacebookUser.id;
+            view.DrawAlbums(data, function(item){
+                $("#albumsGrid").hide();
+                currentSession.imageSource.friendAlbumId = item.id;
+                facebook.GetPhotos(item.id, function(data){
+                    view.DrawPhotos(data, function(item){
+                        currentSession.imageSource.friendPhotoId = item.id;
+
+                        $("#sbcPhotoSelector .storyBoardContent").hide("slow");
+                        memeEditor.OpenEditor();
+                        //imageObj.src = currentSession.imageSource.GetImage();
+                    });
+                });
+            });
+        });
+    });
+
+    $("#sourcePc").click(function(){
+        $("#sbcImageEditor .storyBoardContent").show("slow");
+        $("#sbcImageSource .storyBoardContent").hide("slow");
+        currentSession.SetImageSourceType(LocalImageSourceType);
+        $("#filepicker").click();
+    });
+
+    //Initialise Meme Editor
+    memeEditor.Initialise();
+});
 
 function init() {
     var titleTextBox= document.getElementById("posterTitleTextBox");

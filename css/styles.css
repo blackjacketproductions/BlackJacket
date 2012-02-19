@@ -13,6 +13,37 @@
     cursor: pointer;
 }
 
+.smallTile
+{
+    width: 70px;
+    height: 70px;
+    border: 1px solid white;
+    margin: 5px 30px;
+    padding: 5px 5px;
+}
+
+.smallTile:hover
+{
+    border: 1px solid #3b5998;
+    cursor: pointer;
+}
+
+.smallTileSelected
+{
+    width: 70px;
+    height: 70px;
+    border: 1px solid red;
+    margin: 5px 30px;
+    padding: 5px 5px;
+}
+.smallTileSelected:hover
+{
+    border: 1px solid #3b5998;
+    cursor: pointer;
+}
+
+
+
 #sbcImageSource .storyBoardContent
 {
     text-align: center;

@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
-    <script src="scripts/main.js" type="text/javascript"></script>
     <script src="scripts/Facebook.js" type="text/javascript"></script>
     <script src="scripts/FacebookUser.js" type="text/javascript"></script>
     <script src="scripts/LoggedInUser.js" type="text/javascript"></script>
@@ -13,73 +12,17 @@
     <script src="scripts/FacebookImageSource.js" type="text/javascript"></script>
     <script src="scripts/LocalImageSource.js" type="text/javascript"></script>
     <script src="scripts/IMeme.js" type="text/javascript"></script>
+    <script src="scripts/MemeEditor.js" type="text/javascript"></script>
     <script src="scripts/View.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" href="css/fbStyles.css">
     <link rel="stylesheet" href="css/styles.css">
+
 </head>
 <body>
+<script src="scripts/main.js" type="text/javascript"></script>
 
 <div id="fb-root"></div>
-
-<script type="text/javascript">
-
-    var currentSession = new LoggedInUser();
-    var facebook = new Facebook();
-    var view = new View();
-
-
-    $(document).ready(function() {
-
-        //Authenticate the user with Facebook
-        facebook.Authenticate(function(response) {
-            if (response.status === 'connected') {
-                currentSession.access_token = response.authResponse.accessToken;
-                currentSession.GetDetails(function(){});
-                currentSession.GetFriends(function(){});
-            }
-            else {
-                facebook.Login(function(response){
-                    //
-                });
-            }
-
-        });
-
-        //hide 2nd section
-        $("#sbcImageEditor .storyBoardContent").hide();
-        $("#sbcPhotoSelector .storyBoardContent").hide();
-
-        $("#sourceFb").click(function(){
-            $("#sbcPhotoSelector .storyBoardContent").show("slow");
-            $("#sbcImageSource .storyBoardContent").hide("slow");
-            currentSession.SetImageSourceType(FacebookImageSourceType);
-            //view.DrawFriendsAutoComplete(currentSession.loggedInFacebookUserFriends);
-
-            facebook.GetAlbums(currentSession.loggedInFacebookUser.id, function(data) {
-                currentSession.imageSource.friendFacebookUser = currentSession.loggedInFacebookUser.id;
-                view.DrawAlbums(data, function(item){
-                    $("#albumsGrid").hide();
-                    currentSession.imageSource.friendAlbumId = item.id;
-                    facebook.GetPhotos(item.id, function(data){
-                        view.DrawPhotos(data, function(item){
-                            currentSession.imageSource.friendPhotoId = item.id;
-                            //imageObj.src = currentSession.imageSource.GetImage();
-                        });
-                    });
-                });
-            });
-        });
-
-        $("#sourcePc").click(function(){
-            $("#sbcImageEditor .storyBoardContent").show("slow");
-            $("#sbcImageSource .storyBoardContent").hide("slow");
-            currentSession.SetImageSourceType(LocalImageSourceType);
-            $("#filepicker").click();
-        });
-    });
-
-</script>
 
 <div class="appBody">
     <div id="topBar" class="baseContent">
@@ -104,25 +47,58 @@
 
     <div id="sbcImageEditor" class="baseContent">
         <h3>Step 3 - Fail your Friend</h3>
-        <div class="storyBoardContent">
-            <canvas width="760" height="600" id="demotivationalcanvas">
 
-            </canvas>
-            <form>
-                <p>
-                    <label for="posterTitleTextBox">Title:</label>
-                    <input id="posterTitleTextBox" type="text" value="Hairy Nuts">
-                </p>
+        <div id="editorContainer" class="storyBoardContent">
+            <div class="memeTypes baseContent">
+                <img id="demotivationalType" class="smallTile" src="images/motivation.jpg" title="Create a Demotivational Poster" />
+                <img id="failType" class="smallTile" src="images/failed.jpg" title="Create a FAIL Poster" />
+                <img id="awkwardType" class="smallTile" src="images/awkward.jpg" title="Create an Awkward Moment Poster" />
+                <img id="pricelessType" class="smallTile" src="images/priceless.png" title="Create a Priceless Poster" />
+            </div>
 
-                <p>
-                    <label for="posterWittyCommentTextBox">Witty Comment:</label>
-                    <input id="posterWittyCommentTextBox" type="text" value="I like them this much!!">
-                </p>
+            <div id="demotivationalEditor" class="baseContent">
+                <h3>Demotivational</h3>
+                <canvas width="760" height="600" id="demotivationalcanvas">
 
-                <p>
-                    <input type="button" id="previewButton" value="Preview">
-                </p>
-            </form>
+                </canvas>
+                <form>
+                    <p>
+                        <label for="posterTitleTextBox">Title:</label>
+                        <input id="posterTitleTextBox" type="text" value="Hairy Nuts">
+                    </p>
+
+                    <p>
+                        <label for="posterWittyCommentTextBox">Witty Comment:</label>
+                        <input id="posterWittyCommentTextBox" type="text" value="I like them this much!!">
+                    </p>
+
+                    <p>
+                        <input type="button" id="previewButton" value="Preview">
+                    </p>
+                </form>
+
+            </div>
+
+            <div id="failEditor" class="baseContent">
+                <h3>Fail</h3>
+                <canvas width="760" height="600" id="failCanvas">
+
+                </canvas>
+            </div>
+
+            <div id="awkwardEditor" class="baseContent">
+                <h3>Awkward</h3>
+                <canvas width="760" height="600" id="awkwardCanvas">
+
+                </canvas>
+            </div>
+
+            <div id="pricelessEditor" class="baseContent">
+                <h3>Priceless</h3>
+                <canvas width="760" height="600" id="pricelessCanvas">
+
+                </canvas>
+            </div>
         </div>
     </div>
 </div>
