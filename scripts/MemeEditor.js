@@ -58,9 +58,11 @@ function MemeEditor() {
         }
     };
 
-    this.OpenEditor = function()
-    {
+    this.OpenEditor = function(){
         this.SetMemeType(this.CurrentMemeType);
         $("#editorContainer").show("slow");
     }
+
+    this.CanvasWidth = 740;
+    this.CanvasHeight = 600;
 }
