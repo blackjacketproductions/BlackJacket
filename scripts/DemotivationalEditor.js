@@ -8,25 +8,51 @@
 
 function DemotivationalEditor (){
 
-    this.Iinitialise() = function(){
-        BuildBaseDemotivational();
+
+    this.IsInitialised = false;
+    this.MarginFromBottom = 150;
+    this.MarginFromTop = 75;
+    this.MarginFromSide = 75;
+    this.BorderWidth = 2;
+    this.TitleY = 500;
+    this.WittyCommentY = 550;
+
+    this.Initialise = function(){
+
+        if (this.IsInitialised == false)
+        {
+            this.BuildBaseDemotivational();
+        }
+        this.IsInitialised = true;
     };
 
-
     this.BuildBaseDemotivational = function(){
+       var stage = new Kinetic.Stage("demotivationalcanvas", 500, 500);
+        var layer = new Kinetic.Layer();
 
-        var stage = new Kinetic.Stage("demotivationalcanvas", 760, 600);
-        var layer = new Kinetic.Layer("demotivationalLayer");
+        // Parameters
+
+
+        var borderRightX = stage.width - this.MarginFromSide;
+        var borderBottomY = stage.height - this.MarginFromBottom;
+        var canvasLeftX = this.MarginFromSide + (this.BorderWidth *2);
+        var canvasLeftY = this.MarginFromTop + (this.BorderWidth *2);
+        var canvasWidth = stage.width - (canvasLeftX *2);
+        var canvasHeight = stage.height - (canvasLeftY + this.MarginFromBottom + (borderWidth *2));
+
+
 
         // border
         var border = new Kinetic.Shape(function(){
             var context = this.getContext();
             context.beginPath();
-            context.rect(this._x, this._y, 200, 100);
-            context.fillStyle = "#ddd";
+            context.rect(0, 0, 200, 100);
+            context.fillStyle = "#FFFFFF";
             context.fill();
             context.closePath();
-        };
+        });
+
+        layer.add(border);
 
         stage.add(layer);
     };

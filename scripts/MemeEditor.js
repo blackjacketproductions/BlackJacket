@@ -1,15 +1,18 @@
 function MemeEditor() {
 
     this.IsInitialised = false;
-
     this.CurrentMemeType = DemotivationalMemeType;
+    this.DemotivEditor = new DemotivationalEditor();
 
     this.Initialise = function(){
+
+      this.DemotivEditor = new DemotivationalEditor();
 
       // Attach MemeType Icon click handlers
 
       $("#demotivationalType").click(function () {
           memeEditor.SetMemeType(DemotivationalMemeType);
+
       });
       $("#failType").click(function () {
           memeEditor.SetMemeType(FailMemeType);
@@ -36,6 +39,7 @@ function MemeEditor() {
                 $("#failEditor").hide();
                 $("#awkwardEditor").hide();
                 $("#pricelessEditor").hide();
+                this.DemotivEditor.Initialise();
                 break;
             case FailMemeType:
                 $("#demotivationalEditor").hide();
@@ -59,8 +63,9 @@ function MemeEditor() {
     };
 
     this.OpenEditor = function(){
-        this.SetMemeType(this.CurrentMemeType);
         $("#editorContainer").show("slow");
+        this.SetMemeType(this.CurrentMemeType);
+
     }
 
     this.CanvasWidth = 740;
