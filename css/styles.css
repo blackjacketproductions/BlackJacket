@@ -49,6 +49,12 @@
     text-align: center;
 }
 
+#editorContainer
+{
+    height: 800;
+    width:760;
+}
+
 .fb-login-button
 {
     float:right;

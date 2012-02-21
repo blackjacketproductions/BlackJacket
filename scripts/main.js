@@ -46,9 +46,8 @@ $(document).ready(function() {
                 facebook.GetPhotos(item.id, function(data){
                     view.DrawPhotos(data, function(item){
                         currentSession.imageSource.friendPhotoId = item.id;
+                        $("#sbcPhotoSelector .storyBoardContent").hide("slow", function() {memeEditor.OpenEditor();});
 
-                        $("#sbcPhotoSelector .storyBoardContent").hide("slow");
-                        memeEditor.OpenEditor();
                         //imageObj.src = currentSession.imageSource.GetImage();
                     });
                 });

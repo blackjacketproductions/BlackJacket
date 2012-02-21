@@ -8,7 +8,10 @@
 
 function DemotivationalEditor (){
 
+    var self = this;
 
+    this.PhotoHeight = 600;
+    this.PhotoWidth = 740;
     this.IsInitialised = false;
     this.MarginFromBottom = 150;
     this.MarginFromTop = 75;
@@ -21,36 +24,50 @@ function DemotivationalEditor (){
 
         if (this.IsInitialised == false)
         {
+            $("#demotivationalCanvasDelete").remove();
             this.BuildBaseDemotivational();
         }
         this.IsInitialised = true;
     };
 
     this.BuildBaseDemotivational = function(){
-       var stage = new Kinetic.Stage("demotivationalcanvas", 500, 500);
+       var stage = new Kinetic.Stage("demotivationalcanvas", self.PhotoWidth, self.PhotoHeight);
         var layer = new Kinetic.Layer();
 
         // Parameters
-
-
-        var borderRightX = stage.width - this.MarginFromSide;
-        var borderBottomY = stage.height - this.MarginFromBottom;
-        var canvasLeftX = this.MarginFromSide + (this.BorderWidth *2);
-        var canvasLeftY = this.MarginFromTop + (this.BorderWidth *2);
+        var borderRightX = stage.width - self.MarginFromSide;
+        var borderBottomY = stage.height - self.MarginFromBottom;
+        var canvasLeftX = self.MarginFromSide + (self.BorderWidth *2);
+        var canvasLeftY = self.MarginFromTop + (self.BorderWidth *2);
         var canvasWidth = stage.width - (canvasLeftX *2);
-        var canvasHeight = stage.height - (canvasLeftY + this.MarginFromBottom + (borderWidth *2));
+        var canvasHeight = stage.height - (canvasLeftY + self.MarginFromBottom + (self.BorderWidth *2));
 
 
 
-        // border
+        // black border
         var border = new Kinetic.Shape(function(){
             var context = this.getContext();
             context.beginPath();
-            context.rect(0, 0, 200, 100);
+            context.rect(0, 0, self.PhotoWidth, self.MarginFromTop);
+            context.rect(0, self.MarginFromTop, self.MarginFromSide, self.PhotoHeight - self.MarginFromBottom);
+            context.rect(self.PhotoWidth - self.MarginFromSide, 0, self.PhotoHeight - self.MarginFromBottom, self.PhotoWidth);
+            context.rect(0, self.PhotoHeight - self.MarginFromBottom, self.PhotoWidth, self.PhotoHeight);
+            context.fillStyle = "#000000";
+            context.fill();
+            context.closePath();
+        });
+
+        // border
+        var photoBox = new Kinetic.Shape(function(){
+            var context = this.getContext();
+            context.beginPath();
+            context.rect(canvasLeftX, canvasLeftY, canvasWidth, canvasHeight);
             context.fillStyle = "#FFFFFF";
             context.fill();
             context.closePath();
         });
+
+
 
         layer.add(border);
 

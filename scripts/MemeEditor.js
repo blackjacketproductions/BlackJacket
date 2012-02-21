@@ -1,4 +1,5 @@
 function MemeEditor() {
+    var self = this;
 
     this.IsInitialised = false;
     this.CurrentMemeType = DemotivationalMemeType;
@@ -63,8 +64,7 @@ function MemeEditor() {
     };
 
     this.OpenEditor = function(){
-        $("#editorContainer").show("slow");
-        this.SetMemeType(this.CurrentMemeType);
+        $("#editorContainer").show(function() { self.SetMemeType(self.CurrentMemeType); });
 
     }
 
