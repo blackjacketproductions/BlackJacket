@@ -15,23 +15,42 @@ function View() {
     };
 
     this.DrawAlbums = function(albumJsonData, clickCallback) {
+        var albumGridHTML = '';
+
+        albumGridHTML = "<ul class='gallery'>";
+
         for (i = 0; i < albumJsonData.length; i++) {
-            var imgUrl = 'https://graph.facebook.com/' + albumJsonData[i].object_id + '/picture?access_token=' + window.currentSession.access_token;
-            $("#albumsGrid").append('<span class="photoCell"><img id="' + albumJsonData[i].aid + '" style="background-image: url(' + imgUrl + ')" /></span>');
+            if (!isNaN(albumJsonData[i].aid)) {
+                var imgUrl = 'https://graph.facebook.com/' + albumJsonData[i].object_id + '/picture?access_token=' + window.currentSession.access_token;
+                albumGridHTML = albumGridHTML + '<li><span class="photoCell"><div id="' + albumJsonData[i].aid + '" style="background-image: url(' + imgUrl + ')" /></span></li>';
+            }
         }
 
-        $("#albumsGrid .photoCell img").click(function(){
+        albumGridHTML = albumGridHTML + "</ul>";
+
+        $("#albumsGrid").append(albumGridHTML);
+
+        $("#albumsGrid .photoCell div").click(function(){
             clickCallback(this);
         });
     };
 
     this.DrawPhotos = function(photosJsonData, clickCallback) {
+
+        var photosGridHTML = '';
+
+        photosGridHTML = "<ul class='gallery'>";
+
         for (i = 0; i < photosJsonData.length; i++) {
             var imgUrl = 'https://graph.facebook.com/' + photosJsonData[i].object_id + '/picture?type=album&access_token=' + window.currentSession.access_token;
-            $("#photosGrid").append('<span class="photoCell"><img id="' + photosJsonData[i].pid + '" style="background-image: url(' + imgUrl + ')" /></span>');
+            photosGridHTML = photosGridHTML + '<li><span class="photoCell"><div id="' + photosJsonData[i].pid + '" style="background-image: url(' + imgUrl + ')" /></span></li>';
         }
 
-        $("#photosGrid .photoCell img").click(function(){
+        photosGridHTML = photosGridHTML + "</ul>";
+
+        $("#photosGrid").append(photosGridHTML);
+
+        $("#photosGrid .photoCell div").click(function(){
             clickCallback(this);
         });
     };
